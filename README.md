@@ -22,7 +22,7 @@ Raindrops is a decentralized ticketing protocol that uses NFTs as fully customiz
 
 ## Restricted Contract Functions
 **Set URI (setTokenURI):** Restricted to the owner of the contract. Sets the URI link for a raindrops ticket. URI link holds an image of the ticket and other metadata. <br />
-**Redeem Tickets (redeemTickets):** Redeem the specified tickets after they have been scanned at an event or the event has already occured. Deposit amount is paid out to the ticket holder if the ticket was redeemed at the event. If the event passes without the ticket being redeemed the deposit is paid to the protocol. <br />
+**Redeem Tickets (redeemTickets):** Redeem the specified tickets after they have been scanned at an event or the event has already occurred. Deposit amount is paid out to the ticket holder if the ticket was redeemed at the event. If the event passes without the ticket being redeemed the deposit is paid to the protocol. <br />
 **Remove Treasury Funds (removeFundsTreasury):** Withdraw protocol funds, can only be done by the specified treasury manager address. <br />
 **Set Creator Percent (setCreatorPercent):** Change the percent fee that the event creator recieves from the resale of a ticket. Default is 5%.  <br />
 **Set Protcol Percent (setProtocolPercent):** Change the percent fee that the protocol recieves from the resale of a ticket. Default is 5%.  <br />
@@ -35,16 +35,16 @@ Raindrops is a decentralized ticketing protocol that uses NFTs as fully customiz
 ![ChainLink Hackathon Fall 2021 - Cloud Architecture](https://user-images.githubusercontent.com/85575746/143792609-34a6d827-e4cf-4841-ac9c-0e13a275733f.png)
 
 ## Ticket Redemption Architecture
-The following section describes the steps that are taken both in the cloud and on the blockchain to successfully and securely redeem a raindrops smart ticket. A diagram follows the step by step walthrough and provides an overview of the process. <br/>
+The following section describes the steps that are taken both in the cloud and on the blockchain to successfully and securely redeem a raindrops smart ticket. A diagram follows the step by step walkthrough and provides an overview of the process. <br/>
 **Step 1:** The holder of the ticket wants to generate a QR code which will be scanned for entry into an event and used to claim the ticket deposit. <br/>
 **Step 2:** A request is made to a cloud function to generate a known message that indicates the ticket number which is also saved in the datastore. <br/>
-**Step 3:** The message is signed using the private key from the ticket holders ethereum wallet. <br/>
+**Step 3:** The message is signed using the private key from the ticket holders Ethereum wallet. <br/>
 **Step 4:** The signed message is sent to another cloud function which encodes it as a QR code which is returned to the ticket holder. <br/>
 **Step 5:** The QR code is presented by the ticket holder at the event and is scanned. <br/>
 **Step 6:** The QR code scanner sends the signed message from the QR code to a cloud function which determines if the ticket is valid. Since the original unsigned message is in the datastore the wallet address of the signer can be extracted from the signed message. The signer address is checked against the ticket to be redeemed to ensure ownership of the ticket on-chain. The ticket is also checked to make sure it hasn't already been redeemed. If all of the checks are valid a new entry is added to the datastore to mark the ticket as pending on-chain redemption. <br/>
-**Step 7:** When a set amount of tickets are pending redemption a message is sent to the Ticket Validated Pub/Sub Topic. The message triggers an additional cloud function which manages the on-chain redemption of tickets. This service is called the Redemption Daemon and it interacts with the datastore, the Pub/Sub topic, triggers the chainlink API, and calls the batch redemption function in the raindrops smart contract. <br/>
+**Step 7:** When a set amount of tickets are pending redemption a message is sent to the Ticket Validated Pub/Sub Topic. The message triggers an additional cloud function which manages the on-chain redemption of tickets. This service is called the Redemption Daemon and it interacts with the datastore, the Pub/Sub topic, triggers the Chainlink API, and calls the batch redemption function in the raindrops smart contract. <br/>
 **Step 8:** The first action the Redemption Daemon takes is to call the custom consumer contract which will initiate the Ticket Redemption API. This consumer calls yet another cloud function that acts as an API layer to the datastore. The cloud function provides a bytes encoded string with the ticket numbers which will be supplied to the blockchain. <br/>
-**Step 9:** The chainlink node handles the custom bytes32 job and makes a state change on the blockchain. The redeemableTickets variable is now updated on-chain with the latest batch of tickets to be redeemed. <br/>
+**Step 9:** The Chainlink node handles the custom bytes32 job and makes a state change on the blockchain. The redeemableTickets variable is now updated on-chain with the latest batch of tickets to be redeemed. <br/>
 **Step 10:** The Redemption Daemon reads the updated state of the redeemableTickets variable, decodes it into an array of ticket numbers, and then calls the batch redemption function within the raindrops contract. <br/>
 **Step 11:** Once the raindrops redeem function is called the ticket holders are credited the deposit amount of their tickets within the raindrops protocol. The tickets are marked on-chain as redeemed and can no longer pay out deposits.
 ![ChainLink Hackathon Fall 2021 - Ticket Redemption](https://user-images.githubusercontent.com/85575746/143792624-f76c486b-ddc8-4143-9dcc-614d6215c15c.png)
@@ -57,16 +57,16 @@ The following section describes the steps that are taken both in the cloud and o
 </p>
 
 ## Solidity Error Codes
-RE-0: "Attempt to withdraw more funding than availible" <br/>
+RE-0: "Attempt to withdraw more funding than available" <br/>
 RE-1: "Sender is not the treasury manager" <br/>
 RE-2: "Can't remove more funds than the treasury holds" <br/>
 RE-3: "Event with this name already exists" <br/>
 RE-4: "Sender is not the owner of this event" <br/>
-RE-5: "Insufficent funds to pay ticket deposits - add more funds" <br/>
+RE-5: "Insufficient funds to pay ticket deposits - add more funds" <br/>
 RE-6: "You do not own this ticket" <br/>
 RE-7: "You do not own this ticket" <br/>
 RE-8: "Ticket is not listed for sale" <br/>
-RE-9: "Insufficent funds to purchase ticket" <br/>
+RE-9: "Insufficient funds to purchase ticket" <br/>
 RE-10: "Only the redemption manager can call this function" <br/>
 RE-11: "Ticket has already been redeemed" <br/>
 RE-12: "Not enough funds to pay out deposit" <br/>
