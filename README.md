@@ -32,7 +32,7 @@ Raindrops is a decentralized ticketing protocol that uses NFTs as fully customiz
 ![ChainLink Hackathon Fall 2021 - System Architecture](https://user-images.githubusercontent.com/85575746/143173584-f68ef55a-2e51-4be7-9a49-074590353c33.png)
 
 ## Cloud Architecture
-![ChainLink Hackathon Fall 2021 - Cloud Architecture](https://user-images.githubusercontent.com/85575746/143729824-57016cfb-4582-4da9-87fd-cbd891f80225.png)
+![ChainLink Hackathon Fall 2021 - Cloud Architecture](https://user-images.githubusercontent.com/85575746/143792500-bee52160-b111-4f7c-9018-cfac960ba094.png)
 
 ## Ticket Redemption Architecture
 The following section describes the steps that are taken both in the cloud and on the blockchain to successfully and securely redeem a raindrops smart ticket. A diagram follows the step by step walthrough and provides an overview of the process. <br/>
@@ -47,7 +47,7 @@ The following section describes the steps that are taken both in the cloud and o
 **Step 9:** The chainlink node handles the custom bytes32 job and makes a state change on the blockchain. The redeemableTickets variable is now updated on-chain with the latest batch of tickets to be redeemed. <br/>
 **Step 10:** The Redemption Daemon reads the updated state of the redeemableTickets variable, decodes it into an array of ticket numbers, and then calls the batch redemption function within the raindrops contract. <br/>
 **Step 11:** Once the raindrops redeem function is called the ticket holders are credited the deposit amount of their tickets within the raindrops protocol. The tickets are marked on-chain as redeemed and can no longer pay out deposits.
-![ChainLink Hackathon Fall 2021 - Ticket Redemption](https://user-images.githubusercontent.com/85575746/143731550-e16d4276-5f22-499e-82b8-4a454d548a46.png)
+![ChainLink Hackathon Fall 2021 - Ticket Redemption](https://user-images.githubusercontent.com/85575746/143792539-8e0ae337-73b2-4e0a-8d37-6993d56326d7.png)
 
 ## Raindrops Smart Ticket
 <p float="left">
