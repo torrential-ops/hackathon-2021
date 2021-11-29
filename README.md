@@ -55,5 +55,20 @@ The following section describes the steps that are taken both in the cloud and o
   <img src="https://user-images.githubusercontent.com/85575746/143175786-c98f23a1-70ae-467a-90c4-16295b5c6a38.png" width="300" >
   <img src="https://user-images.githubusercontent.com/85575746/143175531-71ce4aac-9a8d-444f-9c71-af50a5dbbd71.png" width="300" >
 </p>
-
+## Solidity Error Codes
+RE-0: "Attempt to withdraw more funding than availible" <br/>
+RE-1: "Sender is not the treasury manager" <br/>
+RE-2: "Can't remove more funds than the treasury holds" <br/>
+RE-3: "Event with this name already exists" <br/>
+RE-4: "Sender is not the owner of this event" <br/>
+RE-5: "Insufficent funds to pay ticket deposits - add more funds" <br/>
+RE-6: "You do not own this ticket" <br/>
+RE-7: "You do not own this ticket" <br/>
+RE-8: "Ticket is not listed for sale" <br/>
+RE-9: "Insufficent funds to purchase ticket" <br/>
+RE-10: "Only the redemption manager can call this function" <br/>
+RE-11: "Ticket has already been redeemed" <br/>
+RE-12: "Not enough funds to pay out deposit" <br/>
+RE-13: "Can't raise protocol fee higher than 15%" <br/>
+RE-14: "Can't raise creator fee higher than 15%" <br/>
 ## Future Work
