@@ -1,0 +1,6 @@
+google-cloud-datastore
+Flask~=2.0.2
+requests~=2.26.0
+PyQRCode~=1.2.1
+web3~=5.24.0
+pypng~=0.0.21

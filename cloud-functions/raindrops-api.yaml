@@ -1,0 +1,66 @@
+# openapi2-functions.yaml
+swagger: '2.0'
+info:
+  title: raindrops-api
+  description: API on API Gateway to route QR message and validation requests
+  version: 1.0.0
+schemes:
+  - https
+produces:
+  - application/json
+paths:
+  /message:
+    post:
+      summary: Generate messages for use in QR code creation
+      operationId: message
+      x-google-backend:
+        address: 'https://us-central1-hackathon-2021-331600.cloudfunctions.net/QR-Message-Generator'
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+  /validate:
+    post:
+      summary: Validate a raindrops ticket from QR code
+      operationId: validate
+      x-google-backend:
+        address: 'https://us-central1-hackathon-2021-331600.cloudfunctions.net/QR-Redemption-Validator'
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+  /generate:
+    post:
+      summary: Generate a QR code from a signed message string
+      operationId: generate
+      x-google-backend:
+        address: 'https://us-central1-hackathon-2021-331600.cloudfunctions.net/QR-Code-Generator'
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+  /events:
+    post:
+      summary: Retrieve all events since a provided block
+      operationId: events
+      x-google-backend:
+        address: 'https://us-central1-hackathon-2021-331600.cloudfunctions.net/Get-Raindrops-Events'
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
+  /tickets:
+    post:
+      summary: Retrieve info for the requested ticket numbers
+      operationId: tickets
+      x-google-backend:
+        address: 'https://us-central1-hackathon-2021-331600.cloudfunctions.net/Get-Raindrops-Tickets'
+      responses:
+        '200':
+          description: A successful response
+          schema:
+            type: string
